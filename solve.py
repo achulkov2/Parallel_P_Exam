@@ -124,10 +124,6 @@ def get_html_string(answer, size, number):
 
 
 for i in range(1, 101):
-    try:
-        html_middle += get_html_string(question_dict[question_indexes[i]], len(question_list[question_indexes[i]]), i)
-    except KeyError:
-        print(question_indexes[i], question_list[question_indexes[i]])
-        raise KeyError
+    html_middle += get_html_string(question_dict[question_indexes[i]], len(question_list[question_indexes[i]]), i)
 
 result.write(html_beginning + html_middle + html_ending)
