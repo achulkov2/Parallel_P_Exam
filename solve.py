@@ -15,8 +15,6 @@ for child in users_root:
     name_to_user_id[child.attrib['DisplayName']] = int(child.attrib['Id'])
     user_id_to_name[int(child.attrib['Id'])] = child.attrib['DisplayName']
 
-print(user_id_to_name[35679])
-
 
 def get_post_owner_id(attributes):
     if attributes.get('OwnerUserId') is not None:
