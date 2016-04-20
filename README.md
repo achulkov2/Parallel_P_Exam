@@ -4,7 +4,7 @@ In order to run the program you need to run solve.py (Python 3). It requires thr
 which are not included in the repository because of their excessive size (As it was told that doing so is allowed). It also requires an html template (template.html)
 and a stylesheet (style.css), both files included in the repository. In order for everything to work all of those files should be put in the directory from which the source
 code is run.  The output of the program will be written to the file result.html. It will contain a list of 100 posts
-with the most unique repliers and commenters. It is supposed to be viewed in utf-8.
+with the most unique repliers and commenters. It is supposed to be viewed in utf-8 and requires the stylesheet to be in the same directory.
 
 Technical details/comments:
 My program looks through the list of posts and seeks out the author of the post, getting his user id if it is given and his username otherwise. However there are users, who
