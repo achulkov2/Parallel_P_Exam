@@ -15,10 +15,12 @@ for child in users_root:
     name_to_user_id[child.attrib['DisplayName']] = int(child.attrib['Id'])
     user_id_to_name[int(child.attrib['Id'])] = child.attrib['DisplayName']
 
+print(user_id_to_name[35679])
+
 
 def get_post_owner_id(attributes):
     if attributes.get('OwnerUserId') is not None:
-        return attributes['OwnerUserId']
+        return int(attributes['OwnerUserId'])
     else:
         try:
             return int(name_to_user_id[attributes['OwnerDisplayName']])
@@ -31,14 +33,14 @@ def get_post_owner_name(attributes):
         return attributes['OwnerDisplayName']
     else:
         try:
-            return user_id_to_name[attributes['OwnerUserId']]
+            return user_id_to_name[int(attributes['OwnerUserId'])]
         except KeyError:
             return "This_is_not_supposed_to_appear_anywhere_in_users_xml"
 
 
 def get_comment_owner_id(attributes):
     if attributes.get('UserId') is not None:
-        return attributes['UserId']
+        return int(attributes['UserId'])
     else:
         try:
             return int(name_to_user_id[attributes['UserDisplayName']])
@@ -51,7 +53,7 @@ def get_comment_owner_name(attributes):
         return attributes['UserDisplayName']
     else:
         try:
-            return user_id_to_name[attributes['UserId']]
+            return user_id_to_name[int(attributes['UserId'])]
         except KeyError:
             return "This_is_not_supposed_to_appear_anywhere_in_users_xml"
 
@@ -87,16 +89,12 @@ question_dict = dict()
 
 for child in posts_root:
     post = Event(child.attrib, True)
-    if post.post_type == 1:
-        question_list[post.id].add((post.owner_id, post.owner_name))
-        question_dict[post.id] = post
-    if post.post_type == 2:
-        question_list[post.parent_id].add((post.owner_id, post.owner_name))
+    question_list[post.parent_id].add((post.owner_id, post.owner_name))
+    question_dict[post.id] = post
 
 for child in comments_root:
     comment = Event(child.attrib, False)
-    if question_dict.get(comment.parent_id) is not None:
-        question_list[comment.parent_id].add((comment.owner_id, comment.owner_name))
+    question_list[question_dict[comment.parent_id].parent_id].add((comment.owner_id, comment.owner_name))
 
 question_indexes.sort(key=lambda index: len(question_list[index]), reverse=True)
 
@@ -123,7 +121,7 @@ def get_html_string(answer, size, number):
     return (b + e).format(number, answer.id, answer.title, size)
 
 
-for i in range(1, 101):
+for i in range(1, 1000):
     html_middle += get_html_string(question_dict[question_indexes[i]], len(question_list[question_indexes[i]]), i)
 
 result.write(html_beginning + html_middle + html_ending)
