@@ -121,7 +121,7 @@ def get_html_string(answer, size, number):
     return (b + e).format(number, answer.id, answer.title, size)
 
 
-for i in range(1, 1000):
+for i in range(1, 251):
     html_middle += get_html_string(question_dict[question_indexes[i]], len(question_list[question_indexes[i]]), i)
 
 result.write(html_beginning + html_middle + html_ending)
